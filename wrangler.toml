@@ -1,3 +1,10 @@
 name = "sp-proxy-pages"
 compatibility_date = "2026-04-21"
 pages_build_output_dir = "dist"
+
+# 开启智能路由调度，优选空闲节点
+[placement]
+mode = "smart"
+
+# 强制开启 Pages Functions 的 WARP 出站隧道透传
+experimental_outbound_warp = true

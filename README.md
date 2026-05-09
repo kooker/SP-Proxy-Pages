@@ -95,12 +95,12 @@ sp-proxy-pages/
 | `ALLOW_RULES` | 仅允许代理的域名白名单。配置此项后，不在名单内的域名将一律拦截。 | *(空，允许所有)* | `github.com, duckduckgo.com` |
 
 
-**所有变量设置均需在部署前设置或部署后设置需重新部署方可生效！**
+**所有变量设置后需重新部署方可生效！**
 
 **关于缓存更新**：由于前端注册了 Service Worker，如果在后续升级了后端代码遇到渲染异常，请在浏览器中按 `Ctrl + F5` 强制刷新，或在 DevTools -> Application -> Service Workers 中点击 `Unregister` 清理旧缓存。
 
 
-**关于YouTube**：已对 m.youtube.com 进行框架替换，电脑端可用https://blog.kooker.jp/youtube.php 转换为框架再代理 如 https://你的域名.com/https://blog.kooker.jp/GnfBkCIHi9E 但取决于Cloudflare IP 的纯净度，有时是不能播放的。
+**关于YouTube**：已对 m.youtube.com 进行框架替换，电脑端可用https://blog.kooker.jp/youtube.php 转换为框架再代理 如 https://你的域名.com/https://blog.kooker.jp/GnfBkCIHi9E 但取决于Cloudflare IP 的纯净度，大概率是不可播放的。
 
 ### 风险评级
 

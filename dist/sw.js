@@ -1,7 +1,7 @@
 // dist/sw.js (SP-Proxy Service Worker - Enterprise Edition v1.0.0)
 "use strict";
 
-const VERSION = "v1.0.0-202604212037";
+const VERSION = "v1.0.0-202605092224"; // 版本更新
 const CACHE_PREFIX = "sp-proxy-cache-";
 const DYNAMIC_CACHE = `${CACHE_PREFIX}dynamic-${VERSION}`;
 const MAX_DYNAMIC_ITEMS = 150;
@@ -9,7 +9,7 @@ const MAX_CACHE_SIZE_BYTES = 5 * 1024 * 1024;
 
 const REGEX_PROXY_REQ = /^\/https?:\/\//i;
 const REGEX_PROTOCOL = /^(https?):\/+/;
-const REGEX_STREAM_EXT = /\.(m4s|mp4|ts|flv|webm|m3u8)$/i;
+const REGEX_STREAM_EXT = /\.(mp4|webm|ogg|mp3|wav|flac|aac|m4a|m4s|ts|flv|mkv|avi|m3u8|mpd)$/i;
 
 self.addEventListener("install", (event) => {
     self.skipWaiting();
@@ -102,6 +102,7 @@ self.addEventListener("fetch", (event) => {
 
 function routeFetch(req, targetUrl, parsedOriginalUrl) {
     const acceptHeader = req.headers.get('accept') || '';
+    // 拦截流媒体核心：保障视频/音频块走专用长连接网络请求通道
     const isStreamChunk = req.destination === 'video' || 
                           req.destination === 'audio' || 
                           req.headers.has('range') || 
@@ -139,6 +140,7 @@ async function proxyNetworkFetch(req, targetUrl, isLongConnection = false) {
     };
 
     let timeoutId = null;
+    // 如果是非长连接（如静态资源/API），默认保护时长 30s，流媒体则彻底解除时间线限制
     if (!isLongConnection) {
         const controller = new AbortController();
         timeoutId = setTimeout(() => controller.abort(), 30000);
@@ -194,6 +196,7 @@ async function handleStaticResource(req, correctUrl) {
         const res = await proxyNetworkFetch(req, correctUrl, false);
         if (res && res.ok && res.status === 200) {
             const cacheControl = res.headers.get("cache-control") || "";
+            // 防御性缓存拦截，配合_worker追加的策略实现完美规避
             if (!cacheControl.includes("no-store") && !cacheControl.includes("no-cache")) {
                 const size = Number(res.headers.get("content-length") || 0);
                 if (size > 0 && size < MAX_CACHE_SIZE_BYTES) {
