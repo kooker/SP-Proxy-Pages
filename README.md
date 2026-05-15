@@ -1,6 +1,6 @@
 # 🚀 SP-Proxy-Pages
 
-**SP-Proxy-Pages** 是一个专为 **Cloudflare Pages 高级模式 (Advanced Mode)** 打造的无端代理（Web Proxy）解决方案。
+**SP-Proxy-Pages** 是一个专为 **Cloudflare Pages 高级模式 (Advanced Mode)** 打造的无端代理（Web Proxy）。
 
 ---
 
@@ -8,7 +8,7 @@
 
 - **全栈集成**：利用 Cloudflare Pages `_worker.js` 处理边缘逻辑，同时托管静态 `sw.js`。
 - **动态屏蔽系统**：支持 `BLOCK_RULES` 环境变量，兼容纯文本与 Regex 正则匹配。
-- **可私有访问**：独创的零信任入口密语和支持目录型密语 `const SECRET_PREFIX = "";`。
+- **可私有访问**：零信任入口密语和支持目录型密语 `const SECRET_PREFIX = "";`。
 - **零门槛部署**：无需复杂服务器配置，全球边缘节点秒级生效。
 
 ---
